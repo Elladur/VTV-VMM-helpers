@@ -41,9 +41,7 @@ class VtvApiClient:
         """print one game in a line"""
         game_str = f"{game[self.date_column].strftime('%d.%m.%Y %H:%M')}: {game[self.liga_column]} - {game[self.home_column]} gegen {game[self.guest_column]}"
         if including_matches:
-            game_str += (
-                f" - {game[self.home_won_matches_column]}:{game[self.guest_won_matches_column]}"
-            )
+            game_str += f" - {game[self.home_won_matches_column]}:{game[self.guest_won_matches_column]}"
         return game_str
 
     def query_api(self) -> typing.Any:
@@ -51,6 +49,7 @@ class VtvApiClient:
         get the content of the vtv webpage
         depending on the date you get 1 or 2 pages, because past and future is seperated
         """
+        header = {"Referer": "https://www.vorarlbergtennis.at/vereine/VTV/30015"}
         url = "https://www.vorarlbergtennis.at/"
         club_params = {
             "oetvappapi": "1",
@@ -60,7 +59,7 @@ class VtvApiClient:
             "fed": "VTV",
         }
 
-        club_result = re.get(url, club_params, timeout=30)  # type: ignore
+        club_result = re.get(url, headers=header, params=club_params, timeout=30)  # type: ignore
         self.club_name = club_result.json()["data"]["club"]["name"]
 
         params = {
@@ -73,7 +72,7 @@ class VtvApiClient:
             "fed": "VTV",
         }
 
-        result = re.get(url, params, timeout=30)  # type: ignore
+        result = re.get(url, params, timeout=30, headers=header)  # type: ignore
         return result.json()
 
     def parse_json_result(self, json_result: dict) -> None:

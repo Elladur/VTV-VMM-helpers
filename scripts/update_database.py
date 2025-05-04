@@ -1,4 +1,4 @@
-""" 
+"""
 script to update a synced database which contain the matches in an event table
 """
 
@@ -26,7 +26,9 @@ class DatabaseUpdater(VtvApiClient):
 
     def save_games(self, dryrun: bool = False) -> None:
         """print all games in a format that can be pasted into calendar"""
-        home_games = self.games[self.games[self.home_column].str.contains(self.club_name)]
+        home_games = self.games[
+            self.games[self.home_column].str.contains(self.club_name)
+        ]
 
         with self.db_engine.connect() as conn:
             if not dryrun:
@@ -62,7 +64,7 @@ class DatabaseUpdater(VtvApiClient):
             "insert event(title, text, `date`, created_at, updated_at, created_by, updated_by)"
             + "select te.title, te.text, te.date, te.created_at, te.updated_at, te.created_by, te.updated_by from tevent te "
             + "where te.date >= current_timestamp()"
-            + "and not exists(select * from event e where te.title = e.title and te.date = e.date and te.text = e.text);"
+            + "and not exists(select * from event e where te.title = e.title and te.date = e.date);"
         )
         conn.execute(delete_command)
         conn.execute(update_command)
