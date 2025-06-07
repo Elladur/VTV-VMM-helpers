@@ -1,11 +1,28 @@
 from datetime import datetime
 import os
+import argparse
 from vtv_vmm_helpers.database_updater import DatabaseUpdater
 from vtv_vmm_helpers.weekly_schedule import ScheduleExtractor
 
 
 def main():
-    update_database(is_dry_run=True)
+    parser = argparse.ArgumentParser(description="VTV VMM Helpers")
+    parser.add_argument(
+        "--dry-run",
+        dest="is_dry_run",
+        action="store_true",
+        help="Run in dry-run mode (no database changes)",
+    )
+    parser.add_argument(
+        "--no-dry-run",
+        dest="is_dry_run",
+        action="store_false",
+        help="Run and apply changes to the database (is the default behavior)",
+    )
+    parser.set_defaults(is_dry_run=False)
+    args = parser.parse_args()
+
+    update_database(is_dry_run=args.is_dry_run)
 
 
 def extract_schedule():
