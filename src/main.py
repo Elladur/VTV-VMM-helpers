@@ -5,7 +5,7 @@ from vtv_vmm_helpers.weekly_schedule import ScheduleExtractor
 
 
 def main():
-    update_database()
+    update_database(is_dry_run=True)
 
 
 def extract_schedule():
