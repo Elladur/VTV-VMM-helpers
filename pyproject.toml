@@ -1,37 +1,25 @@
-[tool.poetry]
-name = "vtv-api-client"
+[project]
+name = "vtv-vmm-helpers"
 version = "0.1.0"
 description = ""
 authors = ["Elladur <mail@patrickreiner.at>"]
 readme = "README.md"
 license = "MIT"
+requires-python = ">=3.13"
+dependencies = [
+    "pandas>=2.3.0",
+    "pymysql>=1.1.1",
+    "pyperclip>=1.9.0",
+    "pytz>=2025.2",
+    "requests>=2.32.3",
+    "sqlalchemy>=2.0.41",
+]
 
-[tool.poetry.dependencies]
-python = "^3.12"
-requests = "*"
-pytz = "*"
-pyperclip = "*"
-pandas = "*"
-sqlalchemy = "*"
-pymysql = "*"
-
-
-
-[tool.poetry.group.dev.dependencies]
-mypy = "*"
-black = "*"
-ruff = "*"
-types-pytz = "*"
-types-requests = "*"
-pytest = "*"
-pytest-mock = "*"
-pandas-stubs = "*"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.mypy]
-[[tool.mypy.overrides]]
-module = ["pyperclip"]
-ignore_missing_imports = true
+[dependency-groups]
+dev = [
+    "pandas-stubs>=2.2.3.250527",
+    "pytest>=8.4.0",
+    "pytest-mock>=3.14.1",
+    "types-pytz>=2025.2.0.20250516",
+    "types-requests>=2.32.0.20250602",
+]

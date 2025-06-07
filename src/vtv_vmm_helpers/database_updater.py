@@ -2,12 +2,10 @@
 script to update a synced database which contain the matches in an event table
 """
 
-import os
 from datetime import datetime
 
 from sqlalchemy import Connection, create_engine, text
-
-from vtv_api_client import VtvApiClient
+from vtv_vmm_helpers.vtv_api_client import VtvApiClient
 
 
 class DatabaseUpdater(VtvApiClient):
@@ -81,22 +79,3 @@ class DatabaseUpdater(VtvApiClient):
             "insert tevent(title, text, date, created_at, updated_at, created_by, updated_by) values ('VMM', :text, :date, current_timestamp(), current_timestamp(), 'vtv_sync', 'vtv_sync')"
         )
         return conn.execute(sql, {"text": content, "date": day})
-
-
-if __name__ == "__main__":
-    # params
-    CLUB_ID = int(os.getenv("CLUB_ID"))  # type: ignore
-    START_DATE = datetime.today()
-    END_DATE = datetime.fromisoformat(os.getenv("END_DATE"))  # type: ignore
-    API_KEY = os.getenv("API_KEY")  # type: ignore
-    DATABASE_URI = os.getenv("DATABASE_URI")  # type: ignore
-
-    db_updater = DatabaseUpdater(
-        CLUB_ID,
-        START_DATE,
-        END_DATE,
-        API_KEY,  # type: ignore
-        DATABASE_URI,  # type: ignore
-    )
-    db_updater.get_games()
-    db_updater.save_games(dryrun=True)

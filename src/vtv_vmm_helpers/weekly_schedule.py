@@ -1,13 +1,10 @@
-""" 
+"""
 script to generate weekly blocks of text that contains the VMM matches of the week
 """
 
-import os
-from datetime import datetime
-
 import pyperclip as pc
 
-from vtv_api_client import VtvApiClient
+from vtv_vmm_helpers.vtv_api_client import VtvApiClient
 
 
 class ScheduleExtractor(VtvApiClient):
@@ -35,15 +32,3 @@ class ScheduleExtractor(VtvApiClient):
             output += "\n\n"
         pc.copy(output)
         print(output)
-
-
-if __name__ == "__main__":
-    # params
-    CLUB_ID = int(os.getenv("CLUB_ID"))  # type: ignore
-    START_DATE = datetime.fromisoformat(os.getenv("START_DATE"))  # type: ignore
-    END_DATE = datetime.fromisoformat(os.getenv("END_DATE"))  # type: ignore
-    API_KEY = os.getenv("API_KEY")  # type: ignore
-
-    extractor = ScheduleExtractor(CLUB_ID, START_DATE, END_DATE, API_KEY)  # type: ignore
-    extractor.get_games()
-    extractor.print_games()

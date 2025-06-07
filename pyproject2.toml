@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "vtv-api-client"
+version = "0.1.0"
+description = ""
+authors = ["Elladur <mail@patrickreiner.at>"]
+readme = "README.md"
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+requests = "*"
+pytz = "*"
+pyperclip = "*"
+pandas = "*"
+sqlalchemy = "*"
+pymysql = "*"
+
+
+
+[tool.poetry.group.dev.dependencies]
+mypy = "*"
+black = "*"
+ruff = "*"
+types-pytz = "*"
+types-requests = "*"
+pytest = "*"
+pytest-mock = "*"
+pandas-stubs = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+[[tool.mypy.overrides]]
+module = ["pyperclip"]
+ignore_missing_imports = true
