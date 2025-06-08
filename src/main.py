@@ -7,22 +7,29 @@ from vtv_vmm_helpers.weekly_schedule import ScheduleExtractor
 
 def main():
     parser = argparse.ArgumentParser(description="VTV VMM Helpers")
-    parser.add_argument(
+    subparsers = parser.add_subparsers(dest="command", required=True)
+
+    # Subparser for extract_schedule
+    subparsers.add_parser("extract_schedule", help="Extract schedule using environment variables")
+
+    # Subparser for update_database
+    update_parser = subparsers.add_parser(
+        "update_database", help="Update database using environment variables"
+    )
+    update_parser.add_argument(
         "--dry-run",
         dest="is_dry_run",
         action="store_true",
         help="Run in dry-run mode (no database changes)",
     )
-    parser.add_argument(
-        "--no-dry-run",
-        dest="is_dry_run",
-        action="store_false",
-        help="Run and apply changes to the database (is the default behavior)",
-    )
-    parser.set_defaults(is_dry_run=False)
+    update_parser.set_defaults(is_dry_run=False)
+
     args = parser.parse_args()
 
-    update_database(is_dry_run=args.is_dry_run)
+    if args.command == "extract_schedule":
+        extract_schedule()
+    elif args.command == "update_database":
+        update_database(is_dry_run=args.is_dry_run)
 
 
 def extract_schedule():
