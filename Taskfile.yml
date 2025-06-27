@@ -1,0 +1,25 @@
+version: '3'
+
+tasks:
+  default:
+    cmds:
+      - task -a
+
+  update:
+    desc: Updates Tennisclub homepages with current VMM matches
+    aliases: [u]
+    cmds:
+      - uv run ./src/main.py update_database
+
+  testupdate:
+    desc: tests if connection to vtv homepage and database is possible and answers can be parsed
+    aliases: [t]
+    cmds:
+      - uv run ./src/main.py update_database --dry-run
+
+# gets current results of season and schedule of remaining matches
+  extract:
+    desc: gets current results of season and schedule of remaining matches
+    aliases: [e]
+    cmds:
+      - uv run ./src/main.py extract_schedule
