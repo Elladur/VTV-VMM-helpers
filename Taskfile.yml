@@ -17,7 +17,6 @@ tasks:
     cmds:
       - uv run ./src/main.py update_database --dry-run
 
-# gets current results of season and schedule of remaining matches
   extract:
     desc: gets current results of season and schedule of remaining matches
     aliases: [e]
